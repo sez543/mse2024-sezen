@@ -1,0 +1,15 @@
+# Stage 1: Build the Vite project
+FROM node:lts-alpine AS build_fe
+WORKDIR /app
+COPY client ./client
+WORKDIR /app/client
+COPY ./client/package.json ./client/package-lock.json ./
+RUN npm install
+RUN npm run build
+
+# Stage 2: Serve the Vite project
+FROM nginx:alpine
+COPY --from=build_fe /app/client/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 8079
+CMD ["nginx", "-g", "daemon off;"]
