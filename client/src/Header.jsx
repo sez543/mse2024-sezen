@@ -23,7 +23,7 @@ const Header = () => {
       const username = getCookie('user');
       if (username) {
         try {
-          const response = await fetch(`http://localhost:8080/users/${username}`);
+          const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users/${username}`);
           if (response.ok) {
             const data = await response.json();
             setUser(username);

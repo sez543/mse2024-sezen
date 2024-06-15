@@ -18,7 +18,7 @@ const AdminPanel = () => {
 
   const fetchUsers = async (page, pageSize) => {
     try {
-      const response = await fetch(`http://localhost:8080/users?page=${page}&pageSize=${pageSize}`);
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users?page=${page}&pageSize=${pageSize}`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
@@ -39,7 +39,7 @@ const AdminPanel = () => {
   const handleSave = async (index) => {
     const userToUpdate = users[index];
     try {
-      const response = await fetch(`http://localhost:8080/users/${userToUpdate.username}`, {
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users/${userToUpdate.username}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ const AdminPanel = () => {
       const username = getCookie('user');
       if (username) {
         try {
-          const response = await fetch(`http://localhost:8080/users/${username}`);
+          const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users/${username}`);
           if (response.ok) {
             const data = await response.json();
             setUser(username);

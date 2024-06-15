@@ -7,7 +7,7 @@ const LogInForm = ({ onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8080/users/${username}/${password}`);
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users/${username}/${password}`);
       if (response.ok) {
         // Login successful
         onLogin(username); // Pass the username to onLogin

@@ -18,12 +18,12 @@ const TopicDetails = () => {
   useEffect(() => {
     const fetchTopic = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/topics/${id}`);
+        const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/topics/${id}`);
         if (response.ok) {
           const data = await response.json();
           setTopic(data);
           setEditTopicText(data.topic.description);
-          await fetch(`http://localhost:8080/topics/${id}`, {
+          await fetch(`${process.env.FORUM_BACKEND_SERVER}/topics/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ const TopicDetails = () => {
 
     const fetchReplies = async (page) => {
       try {
-        const response = await fetch(`http://localhost:8080/replies/${id}?page=${page}&pageSize=${pageSize}`);
+        const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/replies/${id}?page=${page}&pageSize=${pageSize}`);
         if (response.ok) {
           const data = await response.json();
           setReplies(data);
@@ -65,7 +65,7 @@ const TopicDetails = () => {
       if (userCookie) {
         const username = userCookie.split('=')[1];
         try {
-          const response = await fetch(`http://localhost:8080/users/${username}`);
+          const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users/${username}`);
           if (response.ok) {
             const userData = await response.json();
             setCurrentUser(userData);
@@ -84,7 +84,7 @@ const TopicDetails = () => {
 
   const handleDeleteReply = async (replyID) => {
     try {
-      const response = await fetch(`http://localhost:8080/replies/${replyID}`, {
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/replies/${replyID}`, {
         method: 'DELETE'
       });
       if (response.ok) {
@@ -105,7 +105,7 @@ const TopicDetails = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8080/replies/${editingReply}`, {
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/replies/${editingReply}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -145,7 +145,7 @@ const TopicDetails = () => {
   const handleEditTopicSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8080/topics/${id}`, {
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/topics/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -180,7 +180,7 @@ const TopicDetails = () => {
 
   const handleDeleteTopic = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/topics/${id}`, {
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/topics/${id}`, {
         method: 'DELETE'
       });
       if (response.ok) {
@@ -199,7 +199,7 @@ const TopicDetails = () => {
 
   const fetchReplies = async (page) => {
     try {
-      const response = await fetch(`http://localhost:8080/replies/${id}?page=${page}&pageSize=${pageSize}`);
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/replies/${id}?page=${page}&pageSize=${pageSize}`);
       if (response.ok) {
         const data = await response.json();
         setReplies(data);

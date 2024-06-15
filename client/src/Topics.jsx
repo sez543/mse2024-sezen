@@ -12,7 +12,7 @@ const Topics = () => {
 
   const fetchTopics = async (page) => {
     try {
-      const response = await fetch(`http://localhost:8080/topics?page=${page}&pageSize=${pageSize}`);
+      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/topics?page=${page}&pageSize=${pageSize}`);
       if (response.ok) {
         const data = await response.json();
         setTopics(data);
