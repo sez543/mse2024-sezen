@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +24,13 @@ public class ReplyRest {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<ReplyDto> createReply(@RequestBody ReplyDto reply) {
     ReplyDto persist = replyService.persist(reply);
     return ResponseEntity.ok(persist);
   }
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<List<ReplyDto>> getAllReplies(
           @RequestParam(value = "page", required = false) Integer page,
           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
@@ -37,6 +40,7 @@ public class ReplyRest {
       return ResponseEntity.ok(replyService.getAllReplies(page, pageSize));
   }
   @GetMapping(path = "/{topicId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<List<ReplyDto>> getReplyByTopic(
           @PathVariable Long topicId,
           @RequestParam(value = "page", required = false) Integer page,
@@ -47,6 +51,7 @@ public class ReplyRest {
       return ResponseEntity.ok(replyService.getAllRepliesByTopic(topicId, page, pageSize));
   }
   @PutMapping(path = "/{replyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<ReplyDto> updateReply(
           @PathVariable Long replyId, @RequestBody ReplyDto reply) {
     return ResponseEntity.ok(replyService.updateUser(replyId, reply));

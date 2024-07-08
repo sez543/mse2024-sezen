@@ -54,7 +54,6 @@ public class UserService {
   }
 
   public List<UserDto> getAllUsers(int page, int pageSize) {
-    // if (int )
     Page<UserEntity> all = pagingRepository.findAll(PageRequest.of(page, pageSize));
     return all.getContent().stream().map(converter::toDto).collect(Collectors.toList());
   }

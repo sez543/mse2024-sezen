@@ -24,7 +24,7 @@ const NewTopic = () => {
 
     const fetchUserID = async () => {
       try {
-        const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users/${user}`);
+        const response = await fetch(`${import.meta.env.VITE_FORUM_BACKEND_SERVER}/users/${user}`);
         if (response.ok) {
           const userData = await response.json();
           setUserID(userData.userID);
@@ -49,7 +49,7 @@ const NewTopic = () => {
     };
 
     try {
-      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/topics`, {
+      const response = await fetch(`${import.meta.env.VITE_FORUM_BACKEND_SERVER}/topics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -17,7 +17,7 @@ const ReplyForm = ({ topicID, onReplySubmit }) => {
     e.preventDefault();
     
     try {
-      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users/${user}`);
+      const response = await fetch(`${import.meta.env.VITE_FORUM_BACKEND_SERVER}/users/${user}`);
       if (response.ok) {
         const userData = await response.json();
         const userID = userData.userID;
@@ -26,7 +26,7 @@ const ReplyForm = ({ topicID, onReplySubmit }) => {
           topicID: topicID,
           userID: userID
         };
-        const postResponse = await fetch(`${process.env.FORUM_BACKEND_SERVER}/replies`, {
+        const postResponse = await fetch(`${import.meta.env.VITE_FORUM_BACKEND_SERVER}/replies`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

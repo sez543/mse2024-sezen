@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -24,12 +25,14 @@ public class TopicRest {
   @PostMapping(
           consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<TopicDto> createTopic(@RequestBody TopicDto topic) {
     TopicDto persist = topicService.persist(topic);
     return ResponseEntity.ok(persist);
   }
 
   @GetMapping(path = "/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<List<TopicDto>> getReplyByTopic(
           @PathVariable String username,
           @RequestParam(value = "page", required = false) Integer page,
@@ -43,11 +46,13 @@ public class TopicRest {
 
   // TODO: implement
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<TopicDto> getTopic(@PathVariable("id") Long id) {
     return ResponseEntity.ok(topicService.getTopic(id)); // this throws exception when not found!
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<List<TopicDto>> getAllTopics(
           @RequestParam(value = "page", required = false) Integer page,
           @RequestParam(value = "pageSize", required = false) Integer pageSize

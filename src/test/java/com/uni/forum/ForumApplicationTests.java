@@ -1,7 +1,7 @@
 package com.uni.forum;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.uni.forum.domain.dtos.UserDto;
+import com.uni.forum.domain.dtos.RegisterUserDto;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ class ForumApplicationTests {
 
 	@Test
 	void contextLoads() throws Exception {
-		mockMvc.perform(post("/users")
-				.content(asJsonString(new UserDto("test-username", "test-user", "test-user", "test-user", "asd")))
+		mockMvc.perform(post("/auth/signup")
+				.content(asJsonString(new RegisterUserDto("test@email.com", "test-user", "test-user", "test-username")))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
 

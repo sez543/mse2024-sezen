@@ -20,7 +20,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.FORUM_BACKEND_SERVER}/users`, {
+      const response = await fetch(`${import.meta.env.VITE_FORUM_BACKEND_SERVER}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
