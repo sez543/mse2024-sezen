@@ -5,9 +5,10 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.fe
-      args:
-        VITE_FORUM_BACKEND_SERVER: http://localhost:8080
     image: sez54321/mse_2024_sezen_fe:latest
+    environment:
+      - APP_ENV_PREFIX=VITE_
+      - VITE_FORUM_BACKEND_SERVER=http://localhost:8080
     container_name: frontend
     ports:
       - "8079:8079"
