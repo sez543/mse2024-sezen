@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,18 +34,17 @@ public class TopicRest {
 
   @GetMapping(path = "/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-  public ResponseEntity<List<TopicDto>> getReplyByTopic(
+  public ResponseEntity<Page<TopicDto>> getReplyByTopic(
           @PathVariable String username,
           @RequestParam(value = "page", required = false) Integer page,
           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
     return ResponseEntity.ok(topicService.getAllTopicsByUsername(
       username,
       page == null ? 0 : page,
-      pageSize == null ? 5 : pageSize
+      pageSize == null ? 10 : pageSize
     ));
   }
 
-  // TODO: implement
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<TopicDto> getTopic(@PathVariable("id") Long id) {
@@ -53,18 +53,14 @@ public class TopicRest {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-  public ResponseEntity<List<TopicDto>> getAllTopics(
+  public ResponseEntity<Page<TopicDto>> getAllTopics(
           @RequestParam(value = "page", required = false) Integer page,
           @RequestParam(value = "pageSize", required = false) Integer pageSize
   ) {
-    if (page == null) {
-      page = 0;
-    }
-
-    if (pageSize == null) {
-      pageSize = 10; // Default return 10 results
-    }
-    return ResponseEntity.ok(topicService.getAllTopics(page, pageSize));
+    return ResponseEntity.ok(topicService.getAllTopics(
+      page == null ? 0 : page,
+      pageSize == null ? 10 : pageSize
+    ));
   }
 
   @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

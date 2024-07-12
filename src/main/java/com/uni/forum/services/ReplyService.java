@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReplyService {
-    // TODO: Stanislav will review and fix (and break everything)
-
     private final ReplyRepository replyRepository;
     private final ReplyPagingRepository pagingRepository;
     private final TopicRepository topicRepository;
@@ -43,11 +41,11 @@ public class ReplyService {
         return converter.toDto(savedEntity);
     }
 
-    public List<ReplyDto> getAllRepliesByTopic(Long id, Integer page, Integer pageSize) {
+    public Page<ReplyDto> getAllRepliesByTopic(Long id, Integer page, Integer pageSize) {
         TopicEntity topic = getTopicOrThrowException(id);
         PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by("created").descending());
-        List<ReplyEntity> allByTopic = pagingRepository.findAllByTopic(topic, pageRequest);
-        return allByTopic.stream().map(converter::toDto).collect(Collectors.toList());
+        Page<ReplyEntity> allByTopic = pagingRepository.findAllByTopic(topic, pageRequest);
+        return allByTopic.map(converter::toDto);
     }
 
     public List<ReplyDto> getAllReplies(Integer page, Integer pageSize) {
@@ -67,7 +65,7 @@ public class ReplyService {
     public ReplyDto updateUser(long replyId, ReplyDto reply) {
         Optional<ReplyEntity> byiD = replyRepository.findById(replyId);
         if (byiD.isEmpty()) {
-            throw new IllegalArgumentException(  "Reply not found: " + replyId);
+            throw new IllegalArgumentException("Reply not found: " + replyId);
         }
         ReplyEntity replyEntity = byiD.get();
         ReplyEntity updatedEntity = converter.toEntity(reply);

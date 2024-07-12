@@ -17,9 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +37,6 @@ public class TopicService {
     }
 
     public TopicDto getTopic(long id) {
-        // TODO: don't use join, just query topic
         Optional<TopicEntity> topic = repository.findById(id);
         if (topic.isEmpty()) {
             throw new IllegalArgumentException(  "Topic not found: " + id);
@@ -48,15 +45,16 @@ public class TopicService {
         return converter.toDto(topicEntity);
     }
 
-    public List<TopicDto> getAllTopicsByUsername(String username, Integer page, Integer pageSize) {
+    public Page<TopicDto> getAllTopicsByUsername(String username, Integer page, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by("created").descending());
-        List<TopicEntity> allByUsername = pagingRepository.findByUsername(username, pageRequest);
-        return allByUsername.stream().map(converter::toDto).collect(Collectors.toList());
+        Page<TopicEntity> allByUsername = pagingRepository.findByUsername(username, pageRequest);
+        return allByUsername.map(converter::toDto);
     }
 
-    public List<TopicDto> getAllTopics(int page, int pageSize) {
-        Page<TopicEntity> all = pagingRepository.findAll(PageRequest.of(page, pageSize));
-        return all.getContent().stream().map(converter::toDto).collect(Collectors.toList());
+    public Page<TopicDto> getAllTopics(int page, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by("created").descending());
+        Page<TopicEntity> allTopics = pagingRepository.findAll(pageRequest);
+        return allTopics.map(converter::toDto);
     }
 
     public TopicDto updateTopic(Long id, TopicDto newTopicDto) {

@@ -35,10 +35,16 @@ public class UserService {
     return converter.toDto(savedUser);
   }
 
+  public void delete(UserDto user) {
+    Optional<UserEntity> byUsername = userRepository.findByUsername(user.getUsername());
+    if (byUsername.isPresent()) {
+      userRepository.delete(byUsername.get());
+    }
+  }
+
   public UserDto findByEmail(String username) {
     Optional<UserEntity> byEmail = userRepository.findByUsername(username);
     if (byEmail.isEmpty()) {
-      // TODO: log this
       return null;
     }
     return converter.toDto(byEmail.get());

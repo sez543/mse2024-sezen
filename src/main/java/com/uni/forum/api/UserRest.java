@@ -10,8 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
-// TODO: exception handling to not show backend errors
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/users")
@@ -38,8 +38,7 @@ public class UserRest {
   public ResponseEntity<List<UserDto>> getAllUsers(
       @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-    // TODO: add check for NULL page and pageSize
-    return ResponseEntity.ok(userService.getAllUsers(page, pageSize));
+    return ResponseEntity.ok(userService.getAllUsers(Objects.isNull(page) ? 0 : page, Objects.isNull(pageSize) ? 10 : pageSize));
   }
 
 }

@@ -4,6 +4,8 @@ WORKDIR /app
 COPY client ./client
 WORKDIR /app/client
 COPY ./client/package.json ./client/package-lock.json ./
+ARG VITE_FORUM_BACKEND_SERVER
+ENV VITE_FORUM_BACKEND_SERVER=$VITE_FORUM_BACKEND_SERVER
 RUN npm install
 RUN npm run build
 

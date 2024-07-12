@@ -16,6 +16,9 @@ public class TopicEntity extends BaseEntity {
   @Column(unique = true)
   private String title;
 
+  @Column(columnDefinition="TEXT")
+  private String description;
+
   private String username;
 
   @Column

@@ -5,7 +5,9 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.fe
-    image: sez54321/mse_2024_sezen_fe
+      args:
+        VITE_FORUM_BACKEND_SERVER: http://localhost:8080
+    image: sez54321/mse_2024_sezen_fe:latest
     container_name: frontend
     ports:
       - "8079:8079"
@@ -13,7 +15,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.be
-    image: sez54321/mse_2024_sezen_be
+    image: sez54321/mse_2024_sezen_be:latest
     container_name: backend
     ports:
       - "8080:8080"

@@ -5,6 +5,7 @@ import com.uni.forum.services.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,7 +42,7 @@ public class ReplyRest {
   }
   @GetMapping(path = "/{topicId}", produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-  public ResponseEntity<List<ReplyDto>> getReplyByTopic(
+  public ResponseEntity<Page<ReplyDto>> getReplyByTopic(
           @PathVariable Long topicId,
           @RequestParam(value = "page", required = false) Integer page,
           @RequestParam(value = "pageSize", required = false) Integer pageSize) {

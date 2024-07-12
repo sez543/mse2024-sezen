@@ -13,7 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-// TODO: create a base entity that contain date created, date modified, id
 @NoArgsConstructor
 @Getter
 @Setter
@@ -27,7 +26,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String password;
     private String name;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false, unique = false)
     private RoleEntity role;
 

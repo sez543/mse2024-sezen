@@ -18,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// TODO: extends the tests
 @SpringBootTest
 @AutoConfigureMockMvc
 class ForumApplicationTests {

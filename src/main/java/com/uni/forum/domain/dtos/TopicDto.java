@@ -15,6 +15,7 @@ public class TopicDto {
 
     private long id;
     private String title;
+    private String description;
     private String username;
     private Date created;
     private Date modified;
